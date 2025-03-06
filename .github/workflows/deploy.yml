@@ -1,0 +1,30 @@
+name: Multi-Cloud Terraform Deployment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-aws:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: hashicorp/setup-terraform@v2
+    - run: terraform init
+      working-directory: ./aws
+    - run: terraform apply -auto-approve
+      working-directory: ./aws
+
+  deploy-gcp:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: hashicorp/setup-terraform@v2
+    - name: Set up GCP Credentials
+      run: echo '${{ secrets.GOOGLE_CREDENTIALS }}' > ./gcp/credentials.json
+    - run: terraform init
+      working-directory: ./gcp
+    - run: terraform apply -auto-approve
+      working-directory: ./gcp
+ 
