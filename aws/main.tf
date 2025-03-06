@@ -5,6 +5,7 @@ provider "aws" {
 resource "aws_instance" "web" {
   ami           = "ami-02a53b0d62d37a757"
   instance_type = "t2.micro"
+  subnet id     = "subnet-0532430b0bb328b7a"
 
   user_data = <<-EOF
               #!/bin/bash
@@ -16,7 +17,7 @@ resource "aws_instance" "web" {
               EOF
 
   tags = {
-    Name = "AWS-Frontend-Instance"
+    Name = "Frontend using aws"
   }
 }
 
