@@ -24,6 +24,7 @@ resource "aws_instance" "web" {
 resource "aws_elb" "web_elb" {
   name               = "web-elb"
   availability_zones = ["us-east-1a"]
+  subnets            = ["subnet-091689872133bc771", "subnet-0532430b0bb328b7a"]
 
   listener {
     instance_port     = 80
