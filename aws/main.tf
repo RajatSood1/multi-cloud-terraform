@@ -22,6 +22,32 @@ resource "aws_subnet" "subnet2" {
   availability_zone       = "us-east-1b"
   map_public_ip_on_launch = true
 }
+# Internet Gateway for VPC
+resource "aws_internet_gateway" "main_igw" {
+  vpc_id = aws_vpc.main.id
+}
+
+# Route Table for Public Subnets
+resource "aws_route_table" "public_rt" {
+  vpc_id = aws_vpc.main.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.main_igw.id
+  }
+}
+
+# Associate Subnet 1 with Public Route Table
+resource "aws_route_table_association" "subnet1_assoc" {
+  subnet_id      = aws_subnet.subnet1.id
+  route_table_id = aws_route_table.public_rt.id
+}
+
+# Associate Subnet 2 with Public Route Table
+resource "aws_route_table_association" "subnet2_assoc" {
+  subnet_id      = aws_subnet.subnet2.id
+  route_table_id = aws_route_table.public_rt.id
+}
 
 # Security Group
 resource "aws_security_group" "alb_sg" {
