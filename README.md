@@ -60,25 +60,3 @@ Push to the **main** branch triggers the GitHub Actions pipeline.
 | GOOGLE_CREDENTIALS | Full GCP Service Account JSON |
 
 ---
-
-## Architecture Diagram
-
-                  +--------------------+
-                  |   GitHub Actions    |
-                  |   (Terraform CI/CD) |
-                  +--------------------+
-                            |
-            +--------------------+--------------------+
-            |                                         |
-    AWS Infrastructure                      GCP Infrastructure
-            |                                         |
-+---------------------+                +----------------------+
-|  AWS Application     |                | GCP Global HTTP LB   |
-|  Load Balancer       |                +----------------------+
-|   (ALB)              |                            |
-+---------------------+                 +---------------------+
-            |                                          |
-      +------------+                            +------------------+
-      | EC2 Instance|                            | Managed Instance |
-      | Apache Web  |                            | Group (MIG)      |
-      +------------+                            +------------------+
